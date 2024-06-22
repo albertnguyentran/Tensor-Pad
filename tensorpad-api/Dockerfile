@@ -1,6 +1,8 @@
-FROM golang:latest
+FROM golang:1.22
 WORKDIR /app
-ADD . /app/
-RUN go build -o ./out/tensorpad .
-EXPOSE 8000
-ENTRYPOINT ["./out/tensorpad"]
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN go build -o bin/api ./api/src/main.go
+CMD 
+
